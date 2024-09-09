@@ -3,6 +3,7 @@
 
 void inicializarMazo();
 void mostrarMazo();
+typedef void *(*funcionDis)(int, int);
 typedef struct Mano
 {
     void ** carta;
@@ -13,21 +14,40 @@ typedef struct Mano
 typedef struct Ds //adjuntar las probabilidades
 {
     int id;
-    int area;
+    char *nombre;
+    funcionDis Diparo;
 }Ds;
 
 typedef struct Dg
 {
     int id;
-    int area;
+    char *nombre;
+    funcionDis Diparo;
+
 }Dg;
 
 typedef struct Dl
 {
     int id;
        
-    int area; //el area puede variar en este
+    char *nombre; //el area puede variar en este
+    funcionDis Diparo;
+
 }Dl;
+typedef struct Dr
+{
+    int id;
+    char *nombre;
+    funcionDis Diparo;
+}Dr;
+typedef struct D5
+{
+    int id;
+    char *nombre;
+    funcionDis Diparo;
+
+}D5;
+
 
 
 
@@ -42,5 +62,7 @@ void * disparoGrande(int x, int y);
 void * disparoLineal(int x, int y);
 void * disparoRadar(int x, int y);
 void * disparo500KG(int x, int y);
+int comprobrarCoordenadas(int x, int y);
+
 
 #endif

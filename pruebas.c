@@ -58,9 +58,41 @@ void inicializarBarcos(int tamaño,int pequeños, int medianos, int grandes, int
 
 
 
+/*
+void usarCarta(){
+    int numero_carta,x,y;
+    printf("selecciona una carta: ");
+    scanf("%d", &numero_carta);
+    //void *cartaActual= cartas.carta[numero_carta];
+    //int id_carta= ((Ds *)cartaActual)->id;
+    funcionDis cartaActual= (funcionDis)cartas.carta[numero_carta];
+    do
+    {
+        printf("seleccione las coordenadas: ");
+        scanf("x= %d, y =%d", x, y);
+        if(comprobarCoordenadas(x,y)){
+            printf("coordenadas ya descubiertas, digite otras");
+        }
+    
+    
+    } while (comprobarCoordenadas(x,y));
+    int id_carta= ((Ds *)cartaActual)->id;
+    switch (id_carta)
+    {
+    case 1:
+        disparoSimple(x,y);
+        break;
+    
+    case 2:
+        disparoGrande(x,y);
+    
+    case 3:
+    disparoLineal(x,y);
 
-
-
+    }
+    
+}
+*/
 
 
 

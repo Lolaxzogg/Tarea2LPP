@@ -4,6 +4,7 @@
 #include "string.h"
 void *** tablero;
 extern *cap;
+extern cantidadBarcos;
 
 
 
@@ -23,13 +24,13 @@ void mostrarTablero(){
     for(int i=0; i<*cap;i++){ //fila
         for(int j=0;j<*cap;j++){
             if(tablero[i][j]!=NULL){
-                printf("|   B");
+                printf("| B ");
             }
             else{
                 printf("|   ");
             }
         }
-        printf("| \n");                   //columna
+        printf("|\n");                   //columna
     }
 }
 
@@ -37,15 +38,6 @@ void mostrarTablero(){
 
 
 #include "time.h"
-typedef struct barcos
-{
-    int id;
-    int size;
-    int *x;
-    int *y;
-    int *hits;
-}barcos;
-
 
 int comprobacion(int x, int y, int sentido, int medida){
     int retorno=1;
@@ -65,8 +57,6 @@ int comprobacion(int x, int y, int sentido, int medida){
                 retorno=0;
                 break;
             }
-
-            
         }
     }
     else{
@@ -91,7 +81,7 @@ void asignacion(int x, int y, int sentido, int medida, int tamaño ){
     if(sentido==1){ //horizontal
         for (int i = 0; i < medida; i++)
         {
-            tablero[x+i][y]=(void *) 1;
+            tablero[x+i][y]=(void *) 1; //pone un uno en el valor de la casilla
 
         }
     }
@@ -106,10 +96,6 @@ void asignacion(int x, int y, int sentido, int medida, int tamaño ){
 
 void creacionBarcos(int identidad, int tamaño, int longitud){
     mostrarTablero(tamaño);
-    barcos barco;
-    barco.id= identidad;
-    barco.size=longitud;
-    int largura=barco.size;
     int direccion;
     int y, x, respuesta; //representa al true
     printf("%d", longitud);
@@ -124,12 +110,12 @@ void creacionBarcos(int identidad, int tamaño, int longitud){
             y= rand() & tamaño;
         }
         //printf("x: %d, y: %d\n", x, y);    
-        respuesta=comprobacion(x, y,  direccion, largura); //1 es true
+        respuesta=comprobacion(x, y,  direccion, longitud); //1 es true
 
     
     
     }while(respuesta!=1); 
-    asignacion(x,y, direccion, largura, tamaño);
+    asignacion(x,y, direccion, longitud, tamaño);
 
 
     

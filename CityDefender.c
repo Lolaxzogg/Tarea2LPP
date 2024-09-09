@@ -7,8 +7,8 @@
 
 
 //Mano cartas;
-
-int *cap; //capacidad del tablero
+int *cap;
+int cantidadBarcos; //capacidad del tablero
 //void ***tablero;
 //const Ds DisparoSimple = {1, 1};
 //const Dg DisparoGrande = {2, 9};
@@ -86,12 +86,13 @@ int main(int argc, char const *argv[]){
     scanf("%d", &dificultad);
     if (dificultad==1){
         tamaño=11;
-        inicializarTablero(tamaño);
-
         cap= &tamaño;
+        cantidadBarcos= 16;
+        inicializarTablero(tamaño);
+        mostrarTablero(tamaño);
         barcosPequeños=2;
         for(int i=0; i<barcosPequeños; i++){
-            mostrarTablero(tamaño);
+
             printf("primer barco pequeño:%d", iden );
             creacionBarcos(iden, tamaño,2 );
             iden+=1;
@@ -163,6 +164,7 @@ int main(int argc, char const *argv[]){
 //    inicializarTablero(tamaño);
     mostrarTablero();
     inicializarMazo();
-    mostrarMazo();    
+    mostrarMazo();
+    //usarCarta();    
     return 0;
 };
