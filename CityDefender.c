@@ -19,10 +19,10 @@ int main(int argc, char const *argv[]){
     int dificultad, iden=0;
     int barcosPequeños, barcosMedianos, barcosGrandes, barcosGigantes;
     //pequeños->2x1; medianos->3x1; grandes->4x1; gigantes->5x1
-    
     printf("Que modalidad quieres jugar?: 1->Facil \n 2->Medio \n 3->Dificil");
     scanf("%d", &dificultad);
     if (dificultad==1){
+        printf("este tablero tiene desde la casilla 0 a la casilla 10");
         tamaño=11;
         maxTurnos=30;
         cap= &tamaño;
@@ -48,6 +48,7 @@ int main(int argc, char const *argv[]){
         }
     
     else if (dificultad==2){
+        printf("Este tablero tiene desde la casilla 0 hasta la 16 para poder disparar");
         tamaño=17;
         cap= &tamaño;
         maxTurnos=35;
@@ -76,6 +77,7 @@ int main(int argc, char const *argv[]){
         
     }
     else{
+        printf("Este tablero tiene desde la casilla 0 hasta la 20 para poder disparar");
         tamaño=21;
         cap= &tamaño;
         maxTurnos=15;

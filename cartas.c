@@ -76,7 +76,7 @@ void usarCarta(){
     int numero_carta,x=0,y=0,condicion=0;
     fflush(stdin);
     fflush(stdout);
-    printf("selecciona una carta: ");
+    printf("selecciona una carta: \n");
     if (scanf("%d", &numero_carta) != 1) {
         printf("Error al leer el número.\n");
         return;
