@@ -15,14 +15,14 @@ typedef struct Ds //adjuntar las probabilidades
 {
     int id;
     char *nombre;
-    funcionDis Diparo;
+    funcionDis Disparo;
 }Ds;
 
 typedef struct Dg
 {
     int id;
     char *nombre;
-    funcionDis Diparo;
+    funcionDis Disparo;
 
 }Dg;
 
@@ -31,20 +31,20 @@ typedef struct Dl
     int id;
        
     char *nombre; //el area puede variar en este
-    funcionDis Diparo;
+    funcionDis Disparo;
 
 }Dl;
 typedef struct Dr
 {
     int id;
     char *nombre;
-    funcionDis Diparo;
+    funcionDis Disparo;
 }Dr;
 typedef struct D5
 {
     int id;
     char *nombre;
-    funcionDis Diparo;
+    funcionDis Disparo;
 
 }D5;
 

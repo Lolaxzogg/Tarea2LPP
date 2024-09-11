@@ -7,76 +7,14 @@
 
 
 //Mano cartas;
-int *cap;
-int cantidadBarcos; //capacidad del tablero
-//void ***tablero;
-//const Ds DisparoSimple = {1, 1};
-//const Dg DisparoGrande = {2, 9};
-//const Dl DisparoLineal = {3, 3}; //cambiar esta area
-
-
-/*   
 int *cap; //capacidad del tablero
-void ***tablero;
-void inicializarTablero(int casillas){
-    tablero= (void***)malloc(casillas * sizeof(void(**)));
-    for( int i=0; i<casillas; i++ ){
-        tablero[i]=(void **)malloc(casillas * sizeof(void(**))); //fila 
-        for(int j=0; j<casillas;j++){ //columna
-            tablero[i][j]= NULL;
-        }
-    }
-}
-void mostrarTablero(){
-    for(int i=0; i<*cap;i++){ //fila
-        for(int j=0;j<*cap;j++){
-            printf("| ");
-        }
-        printf("| \n");                   //columna
-    }
-}
-
-*/
-
-/* 
-void inicializarMazo(){
-    cartas.carta=(void **)malloc(5* sizeof(void *));
-    cartas.disponibles = 5; 
-    for(int i=0; i<5;i++){
-        cartas.carta[i] = malloc(sizeof(Ds));   
-        *(Ds *)(cartas.carta[i])=DisparoSimple;
-    }
-}
-*/
-
-
-
-/*
-void mostrarMazo(){
-    int desocupadas= cartas.disponibles;
-    for(int i=0; i<5; i++){
-        Ds *cartaActual = (Ds* )(cartas.carta[i]);
-printf("Carta %d: id = %d, area = %d\n", i+1, cartaActual->id, cartaActual->area);
-    }
-}
-*/
-
-
-/*
-----------------------------------------------------------------------
-                            Barcos
-------------------------------------------------------------------------
-*/
-
-
-/*
--------------------------------------------------------------------------
-*/
+int cantidadBarcos; //cantidad de barcos existentes
+//void ***tablero;
 
 
 
 int main(int argc, char const *argv[]){
-    int tamaño;
+    int tamaño, maxTurnos;
     //cap= &tamaño;
     int dificultad, iden=0;
     int barcosPequeños, barcosMedianos, barcosGrandes, barcosGigantes;
@@ -86,10 +24,10 @@ int main(int argc, char const *argv[]){
     scanf("%d", &dificultad);
     if (dificultad==1){
         tamaño=11;
+        maxTurnos=30;
         cap= &tamaño;
         cantidadBarcos= 16;
         inicializarTablero(tamaño);
-        mostrarTablero(tamaño);
         barcosPequeños=2;
         for(int i=0; i<barcosPequeños; i++){
 
@@ -112,6 +50,7 @@ int main(int argc, char const *argv[]){
     else if (dificultad==2){
         tamaño=17;
         cap= &tamaño;
+        maxTurnos=35;
         inicializarTablero(tamaño);
         barcosPequeños=3;
         for (int i=0; i<barcosPequeños; i++){ 
@@ -139,6 +78,7 @@ int main(int argc, char const *argv[]){
     else{
         tamaño=21;
         cap= &tamaño;
+        maxTurnos=15;
         inicializarTablero(tamaño);
         barcosPequeños=3;
         for(int i=0; i<barcosPequeños; i++){
@@ -165,6 +105,19 @@ int main(int argc, char const *argv[]){
     mostrarTablero();
     inicializarMazo();
     mostrarMazo();
-    //usarCarta();    
+    for (int i=0;i<maxTurnos;i++){
+        if(cantidadBarcos==0){
+            printf("Todos los barcos destruidos");
+        }
+        else if(i==(maxTurnos-1)){
+            printf("Perdimos, ya no nos quedan más turnos");
+            printf(cantidadBarcos);
+        }    
+        mostrarTablero();
+        mostrarMazo();
+        printf("estoy aca");
+        usarCarta();
+    }
+
     return 0;
 };

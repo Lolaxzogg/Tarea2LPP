@@ -48,16 +48,6 @@ void inicializarBarcos(int tamaño,int pequeños, int medianos, int grandes, int
 
 
 
-
-
-
-
-
-
-
-
-
-
 /*
 void usarCarta(){
     int numero_carta,x,y;

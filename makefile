@@ -1,5 +1,5 @@
 cc = gcc
-CFLAGS = -Wall -g
+CFLAGS = -Wall -fsanitize=address
 OBJS = CityDefender.o tablero.o cartas.o
 TARGET = juego 
 $(TARGET): $(OBJS)

@@ -9,9 +9,9 @@ extern cantidadBarcos;
 
 
 void inicializarTablero(int casillas){
-    tablero= (void***)malloc(casillas * sizeof(void(**)));
+    tablero= (void***)malloc(casillas * sizeof(void**));
     for( int i=0; i<casillas; i++ ){
-        tablero[i]=(void **)malloc(casillas * sizeof(void(**))); //fila 
+        tablero[i]=(void **)malloc(casillas * sizeof(void*)); //fila 
         for(int j=0; j<casillas;j++){ //columna
             tablero[i][j]= NULL;
         }
@@ -24,7 +24,16 @@ void mostrarTablero(){
     for(int i=0; i<*cap;i++){ //fila
         for(int j=0;j<*cap;j++){
             if(tablero[i][j]!=NULL){
+                if (tablero[i][j]==2)
+                {
+                    printf("| x ");
+                }
+                else if (tablero[i][j]==3){
+                    printf("| 0 ");
+                }
+                else{
                 printf("| B ");
+                }
             }
             else{
                 printf("|   ");
@@ -46,7 +55,7 @@ int comprobacion(int x, int y, int sentido, int medida){
 
         for (int i = 0; i < medida; i++)
         {
-            if((x+1)>=*cap||y>=*cap){
+            if((x+i)>=*cap||y>=*cap){
 
                 retorno=0;
                 break;
@@ -63,7 +72,7 @@ int comprobacion(int x, int y, int sentido, int medida){
  
         for (int i=0; i<medida;i++){
             printf("x: %d, y: %d\n", x, y); 
-            if (x>=*cap||(y+1)>=*cap){
+            if (x>=*cap||(y+i)>=*cap){
                 retorno=0;
                 break;
             }
@@ -81,13 +90,14 @@ void asignacion(int x, int y, int sentido, int medida, int tamaño ){
     if(sentido==1){ //horizontal
         for (int i = 0; i < medida; i++)
         {
-            tablero[x+i][y]=(void *) 1; //pone un uno en el valor de la casilla
-
+            tablero[x+i][y]=malloc(sizeof(int)); //pone un uno en el valor de la casilla
+            *((int*)tablero[x+i][y]) = 1;
         }
     }
     else{;
         for (int i=0; i<medida; i++){
-            tablero[x][y+i]=(void *) 1;
+            tablero[x][y+i]=malloc(sizeof(int)); //pone un uno en el valor de la casilla
+            *((int*)tablero[x][y+i]) = 1;
 
         }
     }
