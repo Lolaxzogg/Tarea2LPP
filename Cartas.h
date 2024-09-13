@@ -62,7 +62,4 @@ void * disparoGrande(int x, int y);
 void * disparoLineal(int x, int y);
 void * disparoRadar(int x, int y);
 void * disparo500KG(int x, int y);
-int comprobrarCoordenadas(int x, int y);
-
-
 #endif

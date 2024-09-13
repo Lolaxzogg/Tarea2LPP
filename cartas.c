@@ -8,53 +8,46 @@ extern int cantidadBarcos;
 extern int *cap;
 int carta500=1;
 
-Mano cartas;
-
-
 void inicializarMazo(){
-    cartas.carta=(void **)malloc(5* sizeof(void *));
-    cartas.disponibles = 5;
+    Cartas.carta=(void **)malloc(5* sizeof(void *));
+    Cartas.disponibles = 5;
     for(int i=0; i<5;i++){
-        cartas.carta[i]=(void*)&disparoSimple;
+        Cartas.carta[i]=(void*)&disparoSimple;
     }
 }
 void mostrarMazo(){
-    int desocupadas= cartas.disponibles;
     for(int i=0; i<5; i++){
-        if(cartas.carta[i]==NULL){
-            printf("Cañon roto:--\n");
-        }else {
-            printf("carta:");
-        }
+       if(Cartas.carta[i]==disparoSimple)printf("Simple \n");
+       else if(Cartas.carta[i]==disparoGrande)printf("Grande \n");
+       else if(Cartas.carta[i]==disparoLineal)printf("Linal \n");
+       else if(Cartas.carta[i]==disparoRadar)printf("Radar \n");
+       else if (Cartas.carta[i]==disparo500KG)printf("NUCLEAR \n");
+       else printf("cañon rotito \n");
     }
 }
 
 
 
-int comprobarCoordenadas(int x, int y){
-    printf("hola");
-    return (tablero[x][y]!=NULL);
-}
 //mega=500kg poner esta funcion en cartas.h
 void *(*asignarNueva(int simple, int grande, int lineal, int radar, int mega))(int, int){ 
     
-    printf("vamos a asignar una nueva carta");
+    printf("vamos a asignar una nueva carta\n");
     int numeroRandom= rand() %100;
     printf("%d", numeroRandom);
     if(numeroRandom<simple){
-        printf("nueva carta: disparo simple");
+        printf("nueva carta: disparo simple\n");
         return disparoSimple;
     }
     else if(numeroRandom<grande){
-        printf("nueva carta: disparo grande");
+        printf("nueva carta: disparo grande\n");
         return disparoGrande;
     }
     else if(numeroRandom<lineal){
-        printf("nueva carta:lineal");
+        printf("nueva carta:lineal\n");
         return disparoLineal;
     }
     else if(numeroRandom<radar){
-        printf("nueva carta: radar");
+        printf("nueva carta: radar\n");
         return disparoRadar;
     }
     else if(numeroRandom<mega){
@@ -67,140 +60,143 @@ void *(*asignarNueva(int simple, int grande, int lineal, int radar, int mega))(i
         }
     }
     else{
-        printf("xd");
         return NULL;
     }
 }
 
 void usarCarta(){
-    int numero_carta,x=0,y=0,condicion=0;
-    fflush(stdin);
-    fflush(stdout);
+    int numero_carta,x,y;
+    do
+    {
     printf("selecciona una carta: \n");
     if (scanf("%d", &numero_carta) != 1) {
         printf("Error al leer el número.\n");
-        return;
-    }   
+            return;
+        }
+    } while (numero_carta>=4);
     fflush(stdin);
     printf("Número de carta seleccionado: %d\n", numero_carta);
-    printf("seleccione las coordenada en x: ");
+    printf("seleccione las coordenada en x: \n");
     scanf(" %d", &x);
-    printf("seleccione las coordenada en y: ");
+    printf("seleccione las coordenada en y: \n");
     scanf(" %d",&y);
-    funcionDis cartaActual= (funcionDis)cartas.carta[numero_carta];
-    if (cartas.carta[numero_carta] == NULL) {
-        printf("Error: cartas.carta[%d] es NULL.\n", numero_carta);
+    funcionDis cartaActual= (funcionDis)Cartas.carta[numero_carta];
+    if (Cartas.carta[numero_carta] == NULL) {
+        printf("Error: Cartas.carta[%d] es NULL.\n", numero_carta);
         return;
     }
     funcionDis nuevaCarta = (void*)cartaActual(x,y);
-    cartas.carta[numero_carta] = nuevaCarta;
+    Cartas.carta[numero_carta] = nuevaCarta;
     //comprobar que estan dentro del rango, guiar por lo de tablero.c
 }
 
 void *disparoSimple(int x, int y){
-    if(*((int*)tablero[x][y])==1){
-        tablero[x][y]=(void*)2;   
-        printf("HIT");
+    if(*((int*)tablero[x][y])==2){
+        *(int *)tablero[x][y]=3;   
+        printf("HIT\n");
         cantidadBarcos=cantidadBarcos-1;
     }
-    else{
-        printf("holaaa");
-        tablero[x][y]=(void*)3;
-        printf("MISS");
+    else if(*(int *)tablero[x][y]==1){
+        *(int *)tablero[x][y]=4;
+        printf("MISS\n");
     }
     //Nueva carta
     return asignarNueva(65,85,90,100,0);
 }
 
 void *disparoGrande(int x, int y){
+    int contadorHits=0;
     for(int i=-1;i<=1;i++){
         for(int j=-1;j<=1;j++){ //caso que alguna coordenada este fuera del rango
-            if(x+i>=*cap||x+i>=0||y+j>=*cap||y+j>=0){
-                continue;
+            if(*(int*)tablero[x+i][y+j]==2){
+                *(int *)tablero[x+i][y+j]=3;
+                contadorHits+=1;
+                cantidadBarcos-=1;
             }
-            else if(tablero[x+i][y+j]==(void*)1){
-                tablero[x][y]=(void *)2;
-                printf("HIT");
-                cantidadBarcos=cantidadBarcos-1;
-            }
-            else if(tablero[x+i][y+j]==NULL){
-                tablero[x+i][y+j]=(void *)3;
-                printf("MISS");
+            else if(*(int *)tablero[x+i][y+j]==1){
+                *(int *)tablero[x+i][y+j]=4;
+                printf("MISS\n");
 
             }
             else{
-                break; //caso que la casilla tenga ya asignado un valor
+                //break; //caso que la casilla tenga ya asignado un valor
             }
         }
     }
-    return asignarNueva(80,3,10,5,2);
+    printf("este fue el contador de HITS que hubo :%d\n", contadorHits);
+    return asignarNueva(80,83,93,98,100);
 }
 
 void *disparoLineal(int x, int y){
-    if(x>y){
+    int seleccion=0;
+    printf("horizontal 1, vetical 2. Selecciona: %d\n", seleccion);
+    scanf("%d", &seleccion);
+    if(seleccion==1){ //horizontal
+        printf("disparo horizontal\n");
         for(int i=-2;i<=2;i++){
-            if(tablero[x+i][y]==(void *)1){
-                tablero[x+i][y]=(void *)2;
-                printf("HIT");
-                cantidadBarcos=cantidadBarcos-1;
+            if((x+i)>*cap){  //cambiar esto
+                printf("casilla invalida\n");
+                continue;
             }
-            else if(tablero[x+i][y]==NULL){
-                tablero[x+i][y]=(void *)3;
-                printf("MISS");
+            else if(*(int *)tablero[x+i][y]==2){
+                *(int *)tablero[x+i][y]=3;
+                printf("HIT\n");
+                cantidadBarcos-=1;
             }
-            else{
-                break;
+            else if(*(int *)tablero[x+i][y]==1){
+                *(int *)tablero[x+i][y]=4;
+                printf("MISS\n");
             }
         }
     }
-    else{
+    else{  //vertical
         for(int i=-2;i<=2;i++){
-            if(tablero[x][y+i]==(void *)1){
-                tablero[x][y+i]==(void *)2;
-                printf("HIT");
-                cantidadBarcos=cantidadBarcos-1;
+            if(*(int *)tablero[x][y+i]==2){
+                *(int *)tablero[x][y+i]=3;
+                printf("HIT\n");
+                cantidadBarcos-=1;
             }
-            else if(tablero[x][y+i]==NULL){
-                tablero[x][y+i]==(void *)3;
-                printf("MISS");
-            }
-            else{
-                break;
+            else if(*(int *)tablero[x][y+i]==1){
+                *(int *)tablero[x][y+i]=4;
+                printf("MISS\n");
             }
         }
     }
-    return asignarNueva(85,5,2,6,2);
+    return asignarNueva(85,90,92,98,100);
 }
 void *disparoRadar(int x, int y){
     int descubiertos=0;
     for(int i=-2;i<=2;i++){
         for(int j=-2;i<=2;i++){
-            if(tablero[x+i][y+j]==(void *)1){
+            if(*(int*)tablero[x+i][y+j]==1){
                 descubiertos+=1;
             }
         }
     }
-    printf("se han descubierto esta cantidad de partes de barcos presentes en la zona: %d",descubiertos);
-    return asignarNueva(75,15,5,2,3);
+    printf("se han descubierto esta cantidad de partes de barcos presentes en la zona: %d\n",descubiertos);
+    return asignarNueva(75,90,95,97,100);
 }
 //ver como hacer para restringirlo una vez
 void *disparo500KG(int x, int y){
     for (int i=-5;i<=5;i++){
         for(int j=-5;j<=5;j++){
-            if(tablero[x+i][y+j]==(void *)1){
-                tablero[x+i][y+j]==(void *)2;
-                printf("HIT");
-                cantidadBarcos=cantidadBarcos-1;
+            if((x+i<0||x+i>=*cap)||(y+j<0||y+j>=*cap)){
+                continue;
             }
-            else if(tablero[x+i][y+j]==NULL){
-                tablero[x+i][y+j]==(void *)3;
-                printf("MISS");
+            if(*(int *)tablero[x+i][y+j]==2){
+                *(int *)tablero[x+i][y+j]=3;
+                printf("HIT\n");
+                cantidadBarcos-=1;
             }
-            else{
-                break;
+            else if(*(int *)tablero[x+i][y+j]==1){
+                *(int *)tablero[x+i][y+j] = 4;
+                printf("MISS\n");
             }
+
         }
     }
+    return NULL;
     //hay que quitar este cañon
 }
+
 

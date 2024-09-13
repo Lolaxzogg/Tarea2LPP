@@ -6,12 +6,23 @@
 #include "time.h"
 
 
-//Mano cartas;
+Mano Cartas;
 int *cap; //capacidad del tablero
 int cantidadBarcos; //cantidad de barcos existentes
 //void ***tablero;
 
 
+void limpiarXd(){
+    for(int i=0; i<*cap;i++){
+        for(int j=0; j<*cap; j++){
+            if(tablero[i][j]==NULL)continue;
+            free(tablero[i][j]);
+        }
+        free(tablero[i]);
+    }
+    free(tablero);
+    free(Cartas.carta);
+}
 
 int main(int argc, char const *argv[]){
     int tamaño, maxTurnos;
@@ -19,10 +30,10 @@ int main(int argc, char const *argv[]){
     int dificultad, iden=0;
     int barcosPequeños, barcosMedianos, barcosGrandes, barcosGigantes;
     //pequeños->2x1; medianos->3x1; grandes->4x1; gigantes->5x1
-    printf("Que modalidad quieres jugar?: 1->Facil \n 2->Medio \n 3->Dificil");
+    printf("Que modalidad quieres jugar?: \n 1->Facil \n 2->Medio \n 3->Dificil\n");
     scanf("%d", &dificultad);
     if (dificultad==1){
-        printf("este tablero tiene desde la casilla 0 a la casilla 10");
+        printf("este tablero tiene desde la casilla 0 a la casilla 10 \n");
         tamaño=11;
         maxTurnos=30;
         cap= &tamaño;
@@ -30,16 +41,15 @@ int main(int argc, char const *argv[]){
         inicializarTablero(tamaño);
         barcosPequeños=2;
         for(int i=0; i<barcosPequeños; i++){
-
-            printf("primer barco pequeño:%d", iden );
+            printf("primer barco pequeño:%d\n", iden );
             creacionBarcos(iden, tamaño,2 );
             iden+=1;
         }
-        printf("terminamos barcos pequeños");
+        printf("terminamos barcos pequeños\n");
         barcosMedianos=1;
         creacionBarcos(iden,tamaño,3);
         iden+=1;
-        printf("terminamos barcos medianos");
+        printf("terminamos barcos medianos\n");
         barcosGrandes=1;
         creacionBarcos(iden,tamaño,4);
         iden+=1;
@@ -48,7 +58,7 @@ int main(int argc, char const *argv[]){
         }
     
     else if (dificultad==2){
-        printf("Este tablero tiene desde la casilla 0 hasta la 16 para poder disparar");
+        printf("Este tablero tiene desde la casilla 0 hasta la 16 para poder disparar\n");
         tamaño=17;
         cap= &tamaño;
         maxTurnos=35;
@@ -77,11 +87,12 @@ int main(int argc, char const *argv[]){
         
     }
     else{
-        printf("Este tablero tiene desde la casilla 0 hasta la 20 para poder disparar");
+        printf("Este tablero tiene desde la casilla 0 hasta la 20 para poder disparar\n");
         tamaño=21;
         cap= &tamaño;
         maxTurnos=15;
         inicializarTablero(tamaño);
+        cantidadBarcos=30;
         barcosPequeños=3;
         for(int i=0; i<barcosPequeños; i++){
             creacionBarcos(iden, tamaño,2);
@@ -103,23 +114,22 @@ int main(int argc, char const *argv[]){
             iden+=1;
         }
     }
-//    inicializarTablero(tamaño);
     mostrarTablero();
     inicializarMazo();
     mostrarMazo();
-    for (int i=0;i<maxTurnos;i++){
-        if(cantidadBarcos==0){
-            printf("Todos los barcos destruidos");
-        }
-        else if(i==(maxTurnos-1)){
-            printf("Perdimos, ya no nos quedan más turnos");
-            printf(cantidadBarcos);
-        }    
+    for (int i=0;i<maxTurnos&&cantidadBarcos!=0;i++){
+        printf("Turno: %d\n",i);
         mostrarTablero();
         mostrarMazo();
-        printf("estoy aca");
         usarCarta();
+        if(cantidadBarcos==0){
+            printf("Todos los barcos destruidos\n");
+        }
+        else if(i==(maxTurnos-1)){
+            printf("Perdimos, ya no nos quedan más turnos\n");
+        }
     }
-
+    mostrarTableroFinal(tamaño);
+    limpiarXd();
     return 0;
 };
